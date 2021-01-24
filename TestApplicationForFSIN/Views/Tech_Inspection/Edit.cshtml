@@ -1,0 +1,27 @@
+﻿@model TestApplicationForFSIN.ViewModels.EditInspectionViewModel
+
+@{
+    ViewData["Title"] = "CreateInspection";
+}
+<div class="error">@ViewBag.error</div>
+<form asp-action="Edit">
+    <div class="form-group">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+
+        <label>car_id</label>
+        <input asp-for="Car_Id" value="@Model.Car_Id" class="form-control" />
+
+        <label>Date_inspection</label>
+        <input type="date" asp-for="Date_inspection" class="form-control" />
+        <span asp-validation-for="Date_inspection" class="text-danger"></span>
+
+        <label>Remarks</label>
+        <input asp-for="Remarks" value="@Model.Remarks" class="form-control" />
+
+        <label>Number</label>
+        <input asp-for="Number" value="@Model.Number" class="form-control" />
+
+        <input type="submit" value="изменить" class="btn btn-primary" />
+    </div>
+</form>

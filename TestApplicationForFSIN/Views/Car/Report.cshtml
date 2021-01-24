@@ -1,0 +1,8 @@
+﻿@model TestApplicationForFSIN.ViewModels.ReportViewModel
+
+@{
+    ViewData["Title"] = "Report";
+}
+<p>Всего автомобилей: @Model.count_Car</p>
+<p>Из них старше 3 лет: @Model.over_three_years_old</p>
+<p>Новее 3 лет: @Model.more_than_three_years_old</p>
