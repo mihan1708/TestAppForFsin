@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Форма со списком автомобилей</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Создать новый автомобиль</a>
 </p>
 <table class="table">
     <thead>
@@ -43,8 +43,10 @@
                 @Html.DisplayFor(modelItem => item.Date_of_registration)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-car_id="@item.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-car_id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-car_id="@item.Id">Ред.</a> |
+                <a asp-action="Delete" asp-route-car_id="@item.Id">Удалить</a>|
+                <a asp-controller="Tech_Inspection" asp-action="getInspections" asp-route-car_id="@item.Id">Тех. осмотры</a>|
+                <a asp-controller="Tech_Inspection" asp-action="Create" asp-route-car_id="@item.Id">Добавить тех. осмотр</a>
             </td>
         </tr>
 }

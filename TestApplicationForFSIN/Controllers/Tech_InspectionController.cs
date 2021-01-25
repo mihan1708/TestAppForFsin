@@ -21,52 +21,57 @@ namespace TestApplicationForFSIN.Controllers
             List<Technical_inspection> inspections = db.Inspections.Include(i=>i.Car).ToList();
             return View(inspections);
         }
-        public IActionResult Create()
+        public IActionResult getInspections(int car_id)
         {
-            return View();
+            Car car = db.Cars.Include(i => i.technical_Inspections).FirstOrDefault(i=>i.Id == car_id);
+            
+            return View(car);
+        }
+        public IActionResult Create(int car_id)
+        {
+            Car car = db.Cars.Find(car_id);
+            if (car != null)
+            {
+                CreateInspectionViewModel inspViewModel = new CreateInspectionViewModel
+                {
+                    Car = car
+                };
+                return View(inspViewModel);
+            }
+            return RedirectToAction("Index");
         }
         [HttpPost]
         public IActionResult Create(CreateInspectionViewModel inspViewModel)
         {
-            if (inspViewModel == null)
+            if(inspViewModel.Date_inspection < inspViewModel.Car.Release)
             {
-                ViewBag.error = "заполните поля";
-                return View();
+                ModelState.AddModelError("Date_inspection", "дата осмотра должна быть позже даты выпуска автомобиля");
             }
-            Car _car = db.Cars.Find(inspViewModel.Car_Id);
-            if (_car == null)
+            else if(db.Inspections.FirstOrDefault(i => i.Number == inspViewModel.Number) != null)
             {
-                ViewBag.error = "не найдена запись с таким идентификатором";
-                return View();
+                ModelState.AddModelError("Number", "такой номер карты уже записан");
             }
-            if (inspViewModel.Date_inspection < _car.Release)
+            if(ModelState.IsValid)
             {
-                ViewBag.error = "дата осмотра должна быть позже даты выпуска автомобиля";
-                return View();
-            }
-            if (db.Inspections.FirstOrDefault(i => i.Number == inspViewModel.Number) != null)
-            {
-                ViewBag.error = "уже есть запись с таким уникальным номером карты тех.осмотра";
-                return View();
-            }
-            Technical_inspection inspection = new Technical_inspection
-            {
-                Car = _car,
-                Date_inspection = inspViewModel.Date_inspection,
-                Number = inspViewModel.Number,
-                Remarks = inspViewModel.Remarks
+                Technical_inspection inspection = new Technical_inspection
+                {
+                    Car = db.Cars.Find(inspViewModel.Car.Id),
+                    Date_inspection = inspViewModel.Date_inspection,
+                    Number = inspViewModel.Number,
+                    Remarks = inspViewModel.Remarks,
 
-            };
-            db.Inspections.Add(inspection);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+                };
+                db.Inspections.Add(inspection);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(inspViewModel);
         }
         public IActionResult Edit(int insp_id)
         {
             Technical_inspection inspection = db.Inspections.Include(i => i.Car).FirstOrDefault(i => i.Id == insp_id);
             if (inspection == null)
             {
-                ViewBag.error = "не найдена запись с таким идентификатором";
                 return View();
             }
             EditInspectionViewModel viewModel = new EditInspectionViewModel
@@ -83,39 +88,24 @@ namespace TestApplicationForFSIN.Controllers
         public IActionResult Edit(EditInspectionViewModel inspViewModel)
         {
             Technical_inspection _insp = db.Inspections.Include(i => i.Car).FirstOrDefault(i => i.Id == inspViewModel.Id);
-            if (inspViewModel == null)
+            if(inspViewModel.Date_inspection < _insp.Car.Release)
             {
-                ViewBag.error = "заполните поля";
-                return View();
+                ModelState.AddModelError("Date_inspection", "дата осмотра должна быть позже даты выпуска автомобиля");
             }
-            Car _car = db.Cars.Find(inspViewModel.Car_Id);
-            if (_car == null)
+            else if(db.Inspections.FirstOrDefault(i => i.Number == inspViewModel.Number && i.Id != inspViewModel.Id) != null)
             {
-                ViewBag.error = "не найдена запись с таким идентификатором";
-                return View();
+                ModelState.AddModelError("Number", "такой номер карты уже записан");
             }
-            if (inspViewModel.Date_inspection < _car.Release)
+            if(ModelState.IsValid)
             {
-                ViewBag.error = "дата осмотра должна быть позже даты выпуска автомобиля";
-                return View(inspViewModel);
-            }
-            if (_insp == null)
-            {
-                ViewBag.error = "не найдена запись с таким идентификатором";
-                return View();
-            }
-            if(db.Inspections.FirstOrDefault(i=>i.Number==inspViewModel.Number && i.Id!=inspViewModel.Id)!=null)
-            {
-                ViewBag.error = "уже есть запись с таким уникальным номером карты";
-                //return View();
-                return RedirectToAction("Edit", new { insp_id = inspViewModel.Id});
-            }
-            _insp.Number = inspViewModel.Number;
-            _insp.Date_inspection = inspViewModel.Date_inspection;
-            _insp.Remarks = inspViewModel.Remarks;
-            db.SaveChanges();
+                _insp.Number = inspViewModel.Number;
+                _insp.Date_inspection = inspViewModel.Date_inspection;
+                _insp.Remarks = inspViewModel.Remarks;
+                db.SaveChanges();
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
+            }
+            return View(inspViewModel);
         }
         public IActionResult Delete(int insp_id)
         {

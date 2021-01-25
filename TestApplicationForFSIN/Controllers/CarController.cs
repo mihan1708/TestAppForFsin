@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using TestApplicationForFSIN.Models;
 using TestApplicationForFSIN.ViewModels;
 
@@ -31,25 +28,21 @@ namespace TestApplicationForFSIN.Controllers
         [HttpPost]
         public IActionResult Create(Car car)
         {
-            if (car == null)
-            {
-                ViewBag.error = "заполните поля";
-                return View();
-            }
             if(car.Date_of_registration < car.Release)
             {
-                ViewBag.error = "дата постановки на учёт должна быть позже даты выпуска";
-                return View();
+                ModelState.AddModelError("Date_of_registration", "дата постановки на учёт должна быть позже даты выпуска");
             }
-            if(db.Cars.FirstOrDefault(c=>c.Registration_number==car.Registration_number)!=null)
+            else if(db.Cars.FirstOrDefault(c => c.Registration_number == car.Registration_number) != null)
             {
-                ViewBag.error = "уже есть запись с таким уникальным рег. номером";
-                return View();
+                ModelState.AddModelError("Registration_number", "уже есть запись с таким уникальным рег. номером");
             }
-            ViewBag.error = "";
-            db.Cars.Add(car);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if(ModelState.IsValid)
+            {
+                db.Cars.Add(car);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(car);
         }
         public IActionResult Edit(int car_id)
         {
@@ -63,33 +56,25 @@ namespace TestApplicationForFSIN.Controllers
         [HttpPost]
         public IActionResult Edit(Car car)
         {
-            if (car == null)
-            {
-                ViewBag.error = "заполните поля";
-                return View();
-            }
             if (car.Date_of_registration < car.Release)
             {
-                ViewBag.error = "дата постановки на учёт должна быть позже даты выпуска автомобиля";
-                return View();
+                ModelState.AddModelError("Date_of_registration", "дата постановки на учёт должна быть позже даты выпуска");
             }
-            if (db.Cars.FirstOrDefault(c => c.Registration_number == car.Registration_number && c.Id!=car.Id) != null)
+            else if (db.Cars.FirstOrDefault(c => c.Registration_number == car.Registration_number) != null)
             {
-                ViewBag.error = "уже есть запись с таким уникальным рег. номером";
-                return View();
+                ModelState.AddModelError("Registration_number", "уже есть запись с таким уникальным рег. номером");
             }
-            Car _car = db.Cars.Find(car.Id);
-            if (_car == null)
+            if (ModelState.IsValid)
             {
-                ViewBag.error = "не найдена запись с таким идентификатором";
-                return View();
+                Car _car = db.Cars.Find(car.Id);
+                _car.Model = car.Model;
+                _car.Registration_number = car.Registration_number;
+                _car.Release = car.Release;
+                _car.Date_of_registration = car.Date_of_registration;
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-            _car.Model = car.Model;
-            _car.Registration_number = car.Registration_number;
-            _car.Release = car.Release;
-            _car.Date_of_registration = car.Date_of_registration;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            return View(car);
         }
         public IActionResult Delete(int car_id)
         {

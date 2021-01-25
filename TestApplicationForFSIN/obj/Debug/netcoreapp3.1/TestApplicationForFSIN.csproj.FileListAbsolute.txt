@@ -153,7 +153,7 @@ C:\Users\Михаил\source\repos\TestApplicationForFSIN\TestApplicationForFSIN
 C:\Users\Михаил\source\repos\TestApplicationForFSIN\TestApplicationForFSIN\obj\Debug\netcoreapp3.1\Razor\Views\Car\Edit.cshtml.g.cs
 C:\Users\Михаил\source\repos\TestApplicationForFSIN\TestApplicationForFSIN\obj\Debug\netcoreapp3.1\Razor\Views\Car\Index.cshtml.g.cs
 C:\Users\Михаил\source\repos\TestApplicationForFSIN\TestApplicationForFSIN\obj\Debug\netcoreapp3.1\Razor\Views\Car\Privacy.cshtml.g.cs
-C:\Users\Михаил\source\repos\TestApplicationForFSIN\TestApplicationForFSIN\obj\Debug\netcoreapp3.1\Razor\Views\Tech_Inspection\Index.cshtml.g.cs
 C:\Users\Михаил\source\repos\TestApplicationForFSIN\TestApplicationForFSIN\obj\Debug\netcoreapp3.1\Razor\Views\Tech_Inspection\Create.cshtml.g.cs
 C:\Users\Михаил\source\repos\TestApplicationForFSIN\TestApplicationForFSIN\obj\Debug\netcoreapp3.1\Razor\Views\Tech_Inspection\Edit.cshtml.g.cs
 C:\Users\Михаил\source\repos\TestApplicationForFSIN\TestApplicationForFSIN\obj\Debug\netcoreapp3.1\Razor\Views\Car\Report.cshtml.g.cs
+C:\Users\Михаил\source\repos\TestApplicationForFSIN\TestApplicationForFSIN\obj\Debug\netcoreapp3.1\Razor\Views\Tech_Inspection\getInspections.cshtml.g.cs

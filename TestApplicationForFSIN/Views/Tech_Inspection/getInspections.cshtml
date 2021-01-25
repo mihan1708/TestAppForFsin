@@ -1,0 +1,83 @@
+﻿@model TestApplicationForFSIN.Models.Car
+
+@{
+    ViewData["Title"] = "getInspections";
+}
+
+<h1>Форма со списом тех. осмотров для выбранного автомобиля</h1>
+
+<div>
+    <div class="car_info">
+        @Model.Model
+        @Model.Registration_number
+    </div>
+    <hr />
+    <div class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Registration_number)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Registration_number)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Release)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Release)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Date_of_registration)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Date_of_registration)
+        </dd>
+    </div>
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <label>Номер</label>
+                    </th>
+                    <th>
+                        <label>Дата инспекции</label>
+                    </th>
+                    <th>
+                        <label>Замечания</label>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.technical_Inspections)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Number)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date_inspection)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Remarks)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-insp_id="@item.Id">Ред.</a> |
+                            <a asp-action="Delete" asp-route-insp_id="@item.Id">Удалить</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        
+    </div>
+</div>
+<div>
+    <a asp-controller="Car" asp-action="Index">Вернуться к списку автомобилей</a>
+</div>
