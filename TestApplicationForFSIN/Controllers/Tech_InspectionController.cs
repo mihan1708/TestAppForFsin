@@ -16,11 +16,6 @@ namespace TestApplicationForFSIN.Controllers
         {
             db = context;
         }
-        public IActionResult Index()
-        {
-            List<Technical_inspection> inspections = db.Inspections.Include(i=>i.Car).ToList();
-            return View(inspections);
-        }
         public IActionResult getInspections(int car_id)
         {
             Car car = db.Cars.Include(i => i.technical_Inspections).FirstOrDefault(i=>i.Id == car_id);
@@ -38,7 +33,7 @@ namespace TestApplicationForFSIN.Controllers
                 };
                 return View(inspViewModel);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Car");
         }
         [HttpPost]
         public IActionResult Create(CreateInspectionViewModel inspViewModel)
@@ -63,7 +58,7 @@ namespace TestApplicationForFSIN.Controllers
                 };
                 db.Inspections.Add(inspection);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("getInspections", new { car_id = inspViewModel.Car.Id });
             }
             return View(inspViewModel);
         }
@@ -103,19 +98,19 @@ namespace TestApplicationForFSIN.Controllers
                 _insp.Remarks = inspViewModel.Remarks;
                 db.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("getInspections", new { car_id = inspViewModel.Car_Id });
             }
             return View(inspViewModel);
         }
         public IActionResult Delete(int insp_id)
         {
-            Technical_inspection _insp = db.Inspections.Find(insp_id);
+            Technical_inspection _insp = db.Inspections.Include(i=>i.Car).FirstOrDefault(i=>i.Id == insp_id);
             if (_insp != null)
             {
                 db.Inspections.Remove(_insp);
                 db.SaveChanges();
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("getInspections", new { car_id = _insp.Car.Id });
         }
 
     }

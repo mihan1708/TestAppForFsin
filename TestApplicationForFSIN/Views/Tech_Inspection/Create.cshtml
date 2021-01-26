@@ -10,11 +10,32 @@
     @Model.Car.Registration_number
 </div>
 <form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <!--
+        <div class="form-group">
+            <label asp-for="Date_inspection"></label>
+            <input type="date" asp-for="Date_inspection" class="form-control" />
+            <span asp-validation-for="Date_inspection"></span>
+        </div>
+    -->
     <div class="form-group">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <label asp-for="Date_inspection"></label>
-        <input type="date" asp-for="Date_inspection" class="form-control" />
-        <span asp-validation-for="Date_inspection"></span>
+        <label asp-for="Date_inspection" class="control-label"></label>
+        <div class="input-group" id="datetimepicker1">
+            <input type="text" asp-for="Date_inspection" class="form-control" />
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+        </div>
+        <span asp-validation-for="Date_inspection" class="text-danger"></span>
+        <script type="text/javascript">
+                    $(function () {
+                        $('#datetimepicker1').datetimepicker({
+                            locale: 'ru',
+                            format: 'DD/MM/YYYY',
+                            minDate: '01/01/1885'
+                        });
+                    });
+        </script>
     </div>
     <div class="form-group">
         <label asp-for="Remarks"></label>

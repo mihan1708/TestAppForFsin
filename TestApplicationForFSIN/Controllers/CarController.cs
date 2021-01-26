@@ -60,7 +60,7 @@ namespace TestApplicationForFSIN.Controllers
             {
                 ModelState.AddModelError("Date_of_registration", "дата постановки на учёт должна быть позже даты выпуска");
             }
-            else if (db.Cars.FirstOrDefault(c => c.Registration_number == car.Registration_number) != null)
+            else if (db.Cars.FirstOrDefault(c => c.Registration_number == car.Registration_number && c.Id!= car.Id) != null)
             {
                 ModelState.AddModelError("Registration_number", "уже есть запись с таким уникальным рег. номером");
             }
@@ -78,7 +78,7 @@ namespace TestApplicationForFSIN.Controllers
         }
         public IActionResult Delete(int car_id)
         {
-            Car _car = db.Cars.Find(car_id);
+            Car _car = db.Cars.Include(c=>c.technical_Inspections).FirstOrDefault(c=>c.Id == car_id);
             if(_car!=null)
             {
                 db.Cars.Remove(_car);

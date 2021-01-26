@@ -45,6 +45,14 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "Bootstrap.v3.Datetimepicker": {
+              "target": "Package",
+              "version": "[4.17.49, )"
+            },
+            "Bootstrap.v3.Datetimepicker.CSS": {
+              "target": "Package",
+              "version": "[4.17.49, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[5.0.2, )"
