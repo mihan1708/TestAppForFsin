@@ -11,31 +11,16 @@
         <input type="hidden" asp-for="Id" />
         <input type="hidden" asp-for="Car_Id" class="form-control" />
     </div>
-    <!--
-        <div class="form-group">
-            <label asp-for="Date_inspection"></label>
-            <input type="date" asp-for="Date_inspection" class="form-control" />
-            <span asp-validation-for="Date_inspection" class="text-danger"></span>
-        </div>
-    -->
+
     <div class="form-group">
         <label asp-for="Date_inspection" class="control-label"></label>
-        <div class="input-group" id="datetimepicker1">
+        <div class="input-group datetimepicker" id="datetimepicker1">
             <input type="text" asp-for="Date_inspection" class="form-control" />
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
             </span>
         </div>
         <span asp-validation-for="Date_inspection" class="text-danger"></span>
-        <script type="text/javascript">
-                    $(function () {
-                        $('#datetimepicker1').datetimepicker({
-                            locale: 'ru',
-                            format: 'DD/MM/YYYY',
-                            minDate:'01/01/1885'
-                        });
-                    });
-        </script>
     </div>
     <div class="form-group">
         <label asp-for="Remarks"></label>
@@ -50,6 +35,20 @@
     <input type="submit" value="изменить" class="btn btn-primary" />
 
 </form>
+<div>
+    <a asp-controller="Tech_Inspection" asp-action="getInspections" asp-route-car_id="@Model.Car_Id">Вернуться к списку тех.осмотров</a>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".datetimepicker").datetimepicker({
+            locale: 'ru',
+            format: 'DD/MM/YYYY',
+            minDate: '01/01/1885'
+        });
+    });
+</script>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

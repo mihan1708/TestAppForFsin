@@ -21,57 +21,26 @@
                 <input asp-for="Registration_number" class="form-control" />
                 <span asp-validation-for="Registration_number" class="text-danger"></span>
             </div>
-            <!--
             <div class="form-group">
                 <label asp-for="Release" class="control-label"></label>
-                <input type="date" asp-for="Release" class="form-control" />
-                <span asp-validation-for="Release" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Date_of_registration" class="control-label"></label>
-                <input type="date" asp-for="Date_of_registration" class="form-control" />
-                <span asp-validation-for="Date_of_registration" class="text-danger"></span>
-            </div>
-            -->
-            <div class="form-group">
-                <label asp-for="Release" class="control-label"></label>
-                <div class="input-group" id="datetimepicker1">
+                <div class="input-group datetimepicker" id="datetimepicker1">
                     <input type="text" asp-for="Release" class="form-control" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
-                <span asp-validation-for="Date_of_registration" class="text-danger"></span>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#datetimepicker1').datetimepicker({
-                            locale: 'ru',
-                            format: 'DD/MM/YYYY',
-                            minDate: '01/01/1885'
-                        });
-                    });
-                </script>
+                <span asp-validation-for="Release" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Date_of_registration" class="control-label"></label>
-                <div class="input-group" id="datetimepicker2">
+                <div class="input-group datetimepicker" id="datetimepicker2">
                     <input type="text" asp-for="Date_of_registration" class="form-control" />
                     <span class="input-group-addon">
                         <span class="glyphicon glyphicon-calendar"></span>
                     </span>
                 </div>
                 <span asp-validation-for="Date_of_registration" class="text-danger"></span>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#datetimepicker2').datetimepicker({
-                            locale: 'ru',
-                            format: 'DD/MM/YYYY',
-                            minDate: '01/01/1885'
-                        });
-                    });
-                </script>
             </div>
-
 
             <div class="form-group">
                 <input type="submit" value="Создать" class="btn btn-primary" />
@@ -84,7 +53,15 @@
     <a asp-action="Index">Вернуться к списку авто</a>
 </div>
 
-
+<script type="text/javascript">
+    $(function () {
+        $(".datetimepicker").datetimepicker({
+            locale: 'ru',
+            format: 'DD/MM/YYYY',
+            minDate: '01/01/1885'
+        });
+    });
+</script>
 
 
 @section Scripts {

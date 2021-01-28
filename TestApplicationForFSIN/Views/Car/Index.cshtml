@@ -45,8 +45,7 @@
             <td>
                 <a asp-action="Edit" asp-route-car_id="@item.Id">Ред.</a> |
                 <a asp-action="Delete" asp-route-car_id="@item.Id">Удалить</a>|
-                <a asp-controller="Tech_Inspection" asp-action="getInspections" asp-route-car_id="@item.Id">Тех. осмотры</a>|
-                <a asp-controller="Tech_Inspection" asp-action="Create" asp-route-car_id="@item.Id">Добавить тех. осмотр</a>
+                <a asp-controller="Tech_Inspection" asp-action="getInspections" asp-route-car_id="@item.Id">Тех. осмотры</a>
             </td>
         </tr>
 }
